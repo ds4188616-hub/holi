@@ -1,0 +1,257 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Holi Gift Box</title>
+<!-- Social preview for chat/link shares -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="🎁 Holi Gift Box">
+<meta property="og:description" content="Tap to open & splash rang!">
+<meta property="og:image" content="https://<your-username>.github.io/holi-splash/happy-holi.gif">
+<meta property="og:url" content="https://<your-username>.github.io/holi-splash/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🎁 Holi Gift Box">
+<meta name="twitter:description" content="Tap to open & splash rang!">
+<meta name="twitter:image" content="https://<your-username>.github.io/holi-splash/happy-holi.gif">
+<style>
+:root {
+  --c1: #ff5fad;
+  --c2: #6dd6ff;
+  --c3: #ffd166;
+  --c4: #8fffa2;
+  --ink: #0c0c0c;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; font-family:'Poppins', system-ui, sans-serif;
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  color:#fff; overflow:hidden;
+  background: linear-gradient(120deg, var(--c1), var(--c2), var(--c3));
+  background-size: 200% 200%;
+  animation:bgShift 9s ease-in-out infinite;
+}
+@keyframes bgShift { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+.blur-blob {
+  position:absolute; width:42vmax; height:42vmax; border-radius:50%;
+  filter:blur(70px); opacity:0.28; pointer-events:none;
+  mix-blend-mode:screen; animation: drift 16s ease-in-out infinite alternate;
+}
+.blur-blob.b2 { background:#5cfdd6; left:-10%; top:-8%; animation-duration:18s; }
+.blur-blob.b1 { background:#ff9fb7; right:-12%; bottom:-14%; }
+@keyframes drift { from{transform:translate3d(0,0,0);} to{transform:translate3d(6vw,-5vh,0);} }
+.card {
+  position:relative; width:min(94vw,480px); padding:32px 24px 30px;
+  background:rgba(15,15,15,0.32); border:1px solid rgba(255,255,255,0.35);
+  border-radius:26px; text-align:center;
+  box-shadow:0 22px 45px rgba(0,0,0,0.28);
+  backdrop-filter: blur(12px);
+}
+.tag { display:inline-flex; align-items:center; gap:10px; padding:10px 14px;
+  background:rgba(255,255,255,0.18); border-radius:24px; font-weight:700; letter-spacing:0.3px;
+}
+.pichkari { width:42px; height:42px; }
+h1 { margin:18px 0 6px; font-size:2.4rem; letter-spacing:0.6px; }
+.subtitle { margin:0 0 10px; font-weight:600; opacity:0.95; }
+.fromline { margin:6px auto 12px; font-weight:700; line-height:1.5; }
+.bless { margin:0 auto 14px; line-height:1.6; font-size:1.05rem; background:rgba(0,0,0,0.35);
+  padding:12px 14px; border-radius:18px; }
+.btns { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+.btn {
+  display:inline-flex; align-items:center; gap:8px; padding:12px 15px;
+  border:none; border-radius:12px; font-weight:800; cursor:pointer; color:var(--ink);
+  background:linear-gradient(120deg,#fff39f,#ff9dd8); box-shadow:0 12px 24px rgba(0,0,0,0.25);
+  transition:transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn.secondary { background:linear-gradient(120deg,#9fffe0,#6dd6ff); }
+.btn:active { transform:translateY(2px) scale(0.98); box-shadow:0 8px 16px rgba(0,0,0,0.2); }
+.input-row {
+  display:flex; gap:8px; margin:10px 0 4px; justify-content:center; flex-wrap:wrap;
+}
+input[name="fromName"] {
+  padding:11px 12px; border-radius:12px; border:1px solid rgba(255,255,255,0.4);
+  background:rgba(0,0,0,0.2); color:#fff; min-width:200px;
+  font-size:1rem; outline:none;
+}
+.small-btn { padding:11px 12px; border-radius:12px; border:none; font-weight:700; cursor:pointer;
+  background:linear-gradient(120deg,#b9fffd,#fff3a5); color:#0b0b0b; box-shadow:0 8px 18px rgba(0,0,0,0.2);
+}
+.canvas { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+.dot { position:absolute; width:12px; height:12px; border-radius:50%; filter:blur(0.4px); opacity:0.95; animation:splash 1.05s ease-out forwards; }
+@keyframes splash { to { transform:translate(var(--tx), var(--ty)) scale(0.28); opacity:0; } }
+.confetti { position:absolute; width:10px; height:18px; border-radius:3px; opacity:0.9; animation: fall 5s linear infinite; }
+@keyframes fall { 0%{transform:translateY(-20vh) rotate(0deg);} 100%{transform:translateY(120vh) rotate(380deg);} }
+.footer { margin-top:12px; font-size:0.95rem; opacity:0.9; }
+.toast {
+  position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
+  background:rgba(0,0,0,0.75); color:#fff; padding:10px 14px; border-radius:12px;
+  font-weight:700; letter-spacing:0.2px; opacity:0; pointer-events:none;
+  transition:opacity 0.25s ease;
+}
+.toast.show { opacity:1; }
+</style>
+</head>
+<body>
+<div class="blur-blob b1"></div><div class="blur-blob b2"></div>
+<div class="card" id="card">
+  <div class="tag">
+    <svg class="pichkari" viewBox="0 0 120 120" aria-hidden="true">
+      <defs>
+        <linearGradient id="gun" x1="0%" x2="100%" y1="0%" y2="0%">
+          <stop offset="0%" stop-color="#ff8fb1"/><stop offset="100%" stop-color="#ffd166"/>
+        </linearGradient>
+        <linearGradient id="water" x1="0%" x2="100%" y1="0%" y2="0%">
+          <stop offset="0%" stop-color="#6dd6ff"/><stop offset="100%" stop-color="#8fffa2"/>
+        </linearGradient>
+      </defs>
+      <rect x="18" y="46" width="70" height="22" rx="8" fill="url(#gun)" stroke="#222" stroke-width="3"/>
+      <rect x="78" y="42" width="26" height="10" rx="4" fill="#ffd166" stroke="#222" stroke-width="3"/>
+      <rect x="22" y="52" width="18" height="30" rx="6" fill="#ff5fad" stroke="#222" stroke-width="3"/>
+      <rect x="58" y="60" width="34" height="10" rx="4" fill="#ffed75" stroke="#222" stroke-width="3"/>
+      <path d="M104 48 Q116 46 118 36" stroke="url(#water)" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M104 55 Q116 56 118 68" stroke="url(#water)" stroke-width="6" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span>Rang Patakha</span>
+  </div>
+  <h1>Holi Gift Box 🎁</h1>
+  <p class="subtitle">Tap to open, tap to splash!</p>
+  <p class="fromline" id="fromLine">Deepak Sagar ki taraf se aap sabhi ko Holi ki hardik shubhkamnaye.</p>
+  <p class="bless">“Khushiyon ki pichkari, pyaar ke rang. Aapka har din Holi jaisa rangeen rahe!”</p>
+  <div class="input-row">
+    <input name="fromName" id="fromInput" placeholder="Apna naam yahan likho" autocomplete="name">
+    <button class="small-btn" id="personalizeBtn">Personalize</button>
+  </div>
+  <div class="btns">
+    <button class="btn" id="sprayBtn">Shoot Pichkari 🚀</button>
+    <button class="btn secondary" id="burstBtn">Full Rang Burst 💥</button>
+    <button class="btn" id="shareBtn">Gift Link 🔗</button>
+  </div>
+  <p class="footer">Niche wale Gift Link se share karo ✨</p>
+  <div class="canvas" id="sprayLayer"></div>
+  <div class="canvas" id="confettiLayer"></div>
+</div>
+<div class="toast" id="toast">Link copied!</div>
+<audio id="bgm" src="music/WhatsApp Audio 2026-03-04 at 9.30.19 AM.mp4" preload="auto" loop></audio>
+
+<script>
+const colors = ['#ff5c8d','#7bedff','#ffd166','#8ef27d','#c89cff','#ff9f43','#93f0ff'];
+const sprayLayer = document.getElementById('sprayLayer');
+const confettiLayer = document.getElementById('confettiLayer');
+const fromLine = document.getElementById('fromLine');
+const fromInput = document.getElementById('fromInput');
+const toast = document.getElementById('toast');
+const shareBtn = document.getElementById('shareBtn');
+const bgm = document.getElementById('bgm');
+const defaultFrom = 'Deepak Sagar';
+
+const params = new URL(window.location).searchParams;
+let currentFrom = params.get('from') ? decodeURIComponent(params.get('from')) : defaultFrom;
+applyFrom(currentFrom);
+if (params.get('from')) fromInput.value = currentFrom;
+
+function showToast(msg='Link copied!') {
+  toast.textContent = msg; toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1600);
+}
+
+function ensureMusic() {
+  if (!bgm) return Promise.resolve();
+  bgm.volume = 0.45;
+  const p = bgm.play();
+  if (p && p.catch) return p.catch(() => {});
+  return Promise.resolve();
+}
+
+function applyFrom(name) {
+  currentFrom = (name && name.trim()) ? name.trim() : defaultFrom;
+  fromLine.textContent = `${currentFrom} ki taraf se aap sabhi ko Holi ki hardik shubhkamnaye.`;
+}
+
+function spray(count = 40, originX = 0.5, originY = 0.5, spread = 1.3) {
+  for (let i = 0; i < count; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot';
+    d.style.background = colors[i % colors.length];
+    const angle = (Math.random()*Math.PI*spread) - Math.PI*spread/2;
+    const speed = 130 + Math.random()*150;
+    d.style.setProperty('--tx', Math.cos(angle)*speed + 'px');
+    d.style.setProperty('--ty', Math.sin(angle)*speed + 'px');
+    d.style.left = (originX*100) + '%';
+    d.style.top = (originY*100) + '%';
+    sprayLayer.appendChild(d);
+    setTimeout(() => d.remove(), 1050);
+  }
+}
+
+function addConfetti() {
+  for (let i = 0; i < 26; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.background = colors[i % colors.length];
+    c.style.left = Math.random()*100 + '%';
+    c.style.animationDuration = (4 + Math.random()*2.5) + 's';
+    c.style.animationDelay = (-Math.random()*5) + 's';
+    confettiLayer.appendChild(c);
+  }
+}
+
+function buildShareURL() {
+  const url = new URL(window.location.href);
+  url.searchParams.set('from', encodeURIComponent(currentFrom));
+  return url.toString();
+}
+
+addConfetti();
+spray(36, 0.5, 0.55, 1.4); // gentle auto burst on load
+ensureMusic().then(() => {
+  if (bgm && bgm.paused) {
+    const kick = () => {
+      ensureMusic();
+      if (bgm && !bgm.paused) {
+        window.removeEventListener('pointerdown', kick, true);
+        window.removeEventListener('touchstart', kick, true);
+        window.removeEventListener('click', kick, true);
+      }
+    };
+    window.addEventListener('pointerdown', kick, true);
+    window.addEventListener('touchstart', kick, true);
+    window.addEventListener('click', kick, true);
+  }
+});
+
+document.getElementById('sprayBtn').addEventListener('click', () => spray(46, 0.5, 0.55, 1.4));
+document.getElementById('burstBtn').addEventListener('click', () => spray(90, 0.5, 0.55, 2));
+document.getElementById('personalizeBtn').addEventListener('click', () => { applyFrom(fromInput.value); ensureMusic(); });
+fromInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { applyFrom(fromInput.value); ensureMusic(); } });
+
+async function shareGift() {
+  const link = buildShareURL();
+  const text = `${currentFrom} ki taraf se rangon bhara Holi gift!`;
+  if (navigator.share) {
+    try { await navigator.share({ title: 'Holi Gift Box', text, url: link }); return; }
+    catch(err) { /* user cancelled */ }
+  }
+  if (navigator.clipboard) {
+    await navigator.clipboard.writeText(link);
+    showToast();
+  } else {
+    const dummy = document.createElement('input');
+    dummy.value = link; document.body.appendChild(dummy); dummy.select(); document.execCommand('copy'); dummy.remove();
+    showToast();
+  }
+}
+
+shareBtn.addEventListener('click', () => shareGift());
+
+// tap anywhere on card to spray (except buttons/input)
+card.addEventListener('click', (e) => {
+  if (e.target.tagName === 'BUTTON' || e.target === fromInput) return;
+  ensureMusic();
+  const rect = sprayLayer.getBoundingClientRect();
+  const ox = (e.clientX - rect.left) / rect.width;
+  const oy = (e.clientY - rect.top) / rect.height;
+  spray(38, ox, oy, 1.6);
+});
+</script>
+</body>
+</html>
